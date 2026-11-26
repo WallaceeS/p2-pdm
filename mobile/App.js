@@ -7,6 +7,7 @@ import backendClient from './src/utils/backendClient';
 import ListaFilmes from './src/components/ListaFilmes';
 import Carregando from './src/components/Carregando';
 import Busca from './src/components/Busca';
+import DetalhesFilme from './src/components/DetalhesFilme.';
 
 export default function App() {
   const [ emAlta, setEmAlta] = useState([])
@@ -15,6 +16,7 @@ export default function App() {
   const [termo, setTermo] = useState('')
   const [termoBuscado, setTermoBuscado] = useState('')
   const [resultados, setResultados] = useState(null)
+  const [filmeSelecionado, setFilmeSelecionado] = useState(null)
 
   useEffect(() => {
     async function buscarEmAlta() {
@@ -79,20 +81,41 @@ export default function App() {
     conteudoPrincipal = <Text style={styles.cor}>Nenhum filme encontrado para  “{termoBuscado}”.</Text>
   }
   else if (resultados !== null){
-    conteudoPrincipal = <ListaFilmes titulo={`Resultados para “${termoBuscado}”`} filmes={resultados}/>
+    conteudoPrincipal = <ListaFilmes titulo={`Resultados para “${termoBuscado}”`} filmes={resultados} onSelecionar={setFilmeSelecionado}/>
   }
 
   else {
-      conteudoPrincipal = <ListaFilmes titulo='Em alta nesta semana' filmes={emAlta}/>
+      conteudoPrincipal = <ListaFilmes titulo='Em alta nesta semana' filmes={emAlta} onSelecionar={setFilmeSelecionado}/>
   }
 
+  let telaPrincipal
 
+  if(filmeSelecionado === null){
+    
+    telaPrincipal = (
+      <View style={styles.telaPrincipal}>
+          <Busca 
+            termo={termo} 
+            onTermoAlterado={setTermo} 
+            onBuscar={buscarFilmes} 
+            onLimpar={limparBusca}
+          /> 
+            {conteudoPrincipal}
+      </View>
+    )
+          
+  }
+  else{
+    telaPrincipal=(
+      <DetalhesFilme id={filmeSelecionado} onVoltar={() => setFilmeSelecionado(null)}>
+      </DetalhesFilme>
+    )
+  }
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <Cabecalho/>
-        <Busca termo={termo} onTermoAlterado={setTermo} onBuscar={buscarFilmes} onLimpar={limparBusca}/>
-        {conteudoPrincipal}
+          {telaPrincipal}
         <Creditos/>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -109,5 +132,9 @@ const styles = StyleSheet.create({
   },
   cor:{
     color:'white'
+  },
+  telaPrincipal: {
+    width: '100%',
+    flex: 1
   }
 });
