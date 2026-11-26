@@ -23,6 +23,7 @@ export default function ListaFilmes ({titulo, filmes}){
 const styles = StyleSheet.create({
     titulo:{
         fontWeight:'bold',
-        color:'white'
+        color:'white',
+        marginBottom: 12
     }
 })

@@ -61,7 +61,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   cartao:{
-    flexDirection: 'row'
+
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: '#6D5A85',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10
+
   },
   titulo:{
     fontWeight: 'bold',
