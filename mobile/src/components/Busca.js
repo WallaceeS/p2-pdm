@@ -1,6 +1,6 @@
-import { View, TextInput, Pressable, Text, StyleSheet } from 'react-native'
+import { View, TextInput, Pressable, Text, StyleSheet, ActivityIndicator  } from 'react-native'
 
-export default function Busca ({termo, onTermoAlterado, onBuscar, onLimpar}){
+export default function Busca ({termo, onTermoAlterado,onLimpar, buscando}){
     let botaoLimpar
 
     if (termo !== ''){
@@ -10,13 +10,17 @@ export default function Busca ({termo, onTermoAlterado, onBuscar, onLimpar}){
             </Pressable>
         )
     }
+    let carregandoBusca
+
+    if(buscando){
+        carregandoBusca = <ActivityIndicator size="small" color="white"/>
+    }
+
     return(
     <View style={styles.container}>
-    <Pressable onPress={onBuscar}>
-        <Text style={styles.botaoBuscar}>Buscar</Text>
-    </Pressable>
     <TextInput  style={styles.texto} value={termo} onChangeText={onTermoAlterado} placeholder='Digite o título de um filme' placeholderTextColor="grey"/>     
     {botaoLimpar}
+    {carregandoBusca}
     </View>
     )
 }
@@ -40,9 +44,4 @@ const styles = StyleSheet.create({
     botao:{
         color:'white'
     },
-    botaoBuscar: {
-    marginRight: 10,
-    color: 'white'
-    }
-
 })

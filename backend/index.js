@@ -86,7 +86,7 @@ app.get('/em-alta', async (req, res) => {
 
 app.get('/filmes', async (req, res) => {
     const busca = req.query.busca
-
+    console.log(`Busca: ${busca}`)
     if(!busca || busca.trim().length === 0){
         return res.status(400).json ({
             "mensagem": "Informe o título de um filme." 
